@@ -197,7 +197,7 @@ def activeEvents(request):
 
     # EVENT RELATED QUERIES
     # Get current events
-    events = Island.objects.filter(start_time__lte=datetime.datetime.now(), end_time__gte=datetime.datetime.now(), kind != 'SK', kind != 'SS').order_by('end_time')
+    events = Island.objects.filter(start_time__lte=datetime.datetime.now(), end_time__gte=datetime.datetime.now()).exclude(kind='SS').exclude(kind='SK').order_by('end_time')
     events_id = events.values_list('id', flat=True)
     # Get current drops
     drops = Drop.objects.filter(island__in=events_id).order_by('character')
