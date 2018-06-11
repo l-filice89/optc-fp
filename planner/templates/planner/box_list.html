@@ -1,32 +1,32 @@
-{% extends 'base.html' %}
-
-{% block buttons %}
-  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
-{% endblock buttons %}
-
-{% block content %}
-<body>
-  <body id="home_body">
-    <main>
-      <div class="child text-center">
-        {% if request.user.is_authenticated %}
-          {% if boxes %}
-            {% for box in boxes %}
-              <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/viewbox{{ box.id }}'">{{ box.name }}</button>
-            {% endfor %}
-          {% else %}
-            You haven't saved any box. <br />
-          {% endif %}
-          <button class="btn btn-success home-buttons" onclick="document.location.href='/planner/newbox'">Add box</button>
-          {% if boxes %}
-          <button class="btn btn-danger home-buttons" onclick="document.location.href='/planner/deletebox'">Remove box</button>
-          {% endif %}
-        {% else %}
-          You need to be logged in to view this page. <a href="../../login"> <br />
-          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
-        {% endif %}
-      </div>
-    </main>
-  </body>
-</body>
-{% endblock content %}
+{% extends 'base.html' %}
+
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <body id="home_body">
+    <main>
+      <div class="child text-center">
+        {% if request.user.is_authenticated %}
+          {% if boxes %}
+            {% for box in boxes %}
+              <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/viewbox{{ box.id }}'">{{ box.name }}</button>
+            {% endfor %}
+          {% else %}
+            You haven't saved any box. <br />
+          {% endif %}
+          <button class="btn btn-success home-buttons" onclick="document.location.href='/planner/newbox'">Add box</button>
+          {% if boxes %}
+          <button class="btn btn-danger home-buttons" onclick="document.location.href='/planner/deletebox'">Remove box</button>
+          {% endif %}
+        {% else %}
+          You need to be logged in to view this page. <a href="../../login"> <br />
+          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+</body>
+{% endblock content %}

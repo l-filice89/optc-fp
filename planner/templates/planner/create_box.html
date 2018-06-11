@@ -1,22 +1,22 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<body>
-  <body>
-    <main>
-      <div id="box_list_child" class="child text-center">
-        {% if request.user.is_authenticated %}
-          <form action="" method="POST">
-            {% csrf_token %}
-            <input style="margin: 5px;"type="text" name="box_name" placeholder="Box name"/><br/>
-            <input class="btn btn-success home-buttons" type="submit" value="Add box"/>
-          </form>
-        {% else %}
-          You need to be logged in to view this page. <a href="../../login"> <br />
-          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
-        {% endif %}
-      </div>
-    </main>
-  </body>
-</body>
-{% endblock content %}
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+  <body>
+    <main>
+      <div id="box_list_child" class="child text-center">
+        {% if request.user.is_authenticated %}
+          <form action="" method="POST">
+            {% csrf_token %}
+            <input style="margin: 5px;"type="text" name="box_name" placeholder="Box name"/><br/>
+            <input class="btn btn-success home-buttons" type="submit" value="Add box"/>
+          </form>
+        {% else %}
+          You need to be logged in to view this page. <a href="../../login"> <br />
+          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+</body>
+{% endblock content %}

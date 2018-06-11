@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-{% load static %}
-
-<html>
-    <head>
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120442881-1"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-120442881-1');
-      </script>
-
-      <base href="/">
-      <!-- Latest compiled and minified CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-
-      <!-- jQuery library -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-      <!-- Popper JS -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-      <!-- Latest compiled JavaScript -->
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-      <!-- Custom CSS -->
-      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/index.css" />
-      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/box.css" />
-      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/uc.css" />
-
-      <title>OPTC-FP</title>
-      <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/n56VDT/title_icon.png"
-    </head>
-    {% if request.user.is_authenticated %}
-      <div class="button-group" id="top-menu">
-        <button style="margin-left:5px;" id="logout_button" class="btn btn-danger right-buttons" onclick="alert('Successfully logged out, come back soon!'); document.location.href='/logout'">Logout</button>
-        <button style="margin-left:5px;" id="logout_button" class="btn right-buttons" onclick="document.location.href='/settings'">Settings</button>
-        {% block buttons %}{% endblock buttons %}
-      </div>
-    {% endif %}
-    {% block content %}{% endblock content %}
-</html>
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120442881-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120442881-1');
+      </script>
+
+      <base href="/">
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+      <!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+      <!-- Popper JS -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+      <!-- Custom CSS -->
+      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/index.css" />
+      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/box.css" />
+      <link rel="stylesheet" href="https://cdn.rawgit.com/l-filice89/optc-fp/master/planner/static/planner/uc.css" />
+
+      <title>OPTC-FP</title>
+      <link rel="shortcut icon" type="image/x-icon" href="https://image.ibb.co/n56VDT/title_icon.png"
+    </head>
+    {% if request.user.is_authenticated %}
+      <div class="button-group" id="top-menu">
+        <button style="margin-left:5px;" id="logout_button" class="btn btn-danger right-buttons" onclick="alert('Successfully logged out, come back soon!'); document.location.href='/logout'">Logout</button>
+        <button style="margin-left:5px;" id="logout_button" class="btn right-buttons" onclick="document.location.href='/settings'">Settings</button>
+        {% block buttons %}{% endblock buttons %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock content %}
+</html>

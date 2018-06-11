@@ -26,9 +26,11 @@ import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'tnx8n91g*-l4li=6!lt*_c^7&p5!*1!c9hr^#0j9%ne(zikzkb')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["www.optc-fp.a2hosted.com"]
+ALLOWED_HOSTS = [
+    'optcfp.herokuapp.com'
+]
 
 
 # Application definition
@@ -85,10 +87,10 @@ WSGI_APPLICATION = 'optcfp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'optcfpah_optcfp',
-        'USER': 'optcfpah_admin',
-        'PASSWORD': 'q6C2L9}_U.8X',
-        'HOST': 'localhost',
+        'NAME': 'pn2xc0qkg7vs12pk',
+        'USER': 'fpq9nj3ot3wldcun',
+        'PASSWORD': 'n7ruez69tswxhees',
+        'HOST': 'nuskkyrsgmn5rw8c.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
@@ -130,7 +132,7 @@ TIME_ZONE = "UTC"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = 'http://www.optc-fp.a2hosted.com/optc-fp/optcfp/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (
     'planner/static',

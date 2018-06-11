@@ -1,40 +1,40 @@
-{% extends 'base.html' %}
-
-{% block buttons %}
-
-{% endblock buttons %}
-
-{% block content %}
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
-<script>
-window.addEventListener("load", function(){
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#edeff5",
-      "text": "#838391"
-    },
-    "button": {
-      "background": "#4b81e8"
-    }
-  },
-  "theme": "edgeless"
-})});
-</script>
-  <body id="small_body">
-    <main id="main_for_small">
-      <div id="index-child" class="child text-center">
-        {% if request.user.is_authenticated %}
-          <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
-          <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Current events</button>
-        {% else %}
-          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
-          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/signup'">Register</button>
-          <button class="btn btn-secondary home-buttons" title="Login to view your boxes" disabled>Box list</button>
-          <button class="btn btn-secondary home-buttons" title="Login to view your boxes" disabled>Current events</button>
-        {% endif %}
-      </div>
-    </main>
-  </body>
-{% endblock content %}
+{% extends 'base.html' %}
+
+{% block buttons %}
+
+{% endblock buttons %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#edeff5",
+      "text": "#838391"
+    },
+    "button": {
+      "background": "#4b81e8"
+    }
+  },
+  "theme": "edgeless"
+})});
+</script>
+  <body id="small_body">
+    <main id="main_for_small">
+      <div id="index-child" class="child text-center">
+        {% if request.user.is_authenticated %}
+          <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
+          <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Current events</button>
+        {% else %}
+          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
+          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/signup'" disabled>Register</button>
+          <button class="btn btn-secondary home-buttons" title="Login to view your boxes" disabled>Box list</button>
+          <button class="btn btn-secondary home-buttons" title="Login to view your boxes" disabled>Current events</button>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+{% endblock content %}

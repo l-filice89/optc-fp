@@ -1,38 +1,38 @@
-{% extends 'base.html' %}
-{% load tz %}
-
-{% block content %}
-<body>
-  <body>
-    <main>
-      <div id="box_list_child" class="child text-center">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4>User settings</h4>
-          </div>
-          <div class="panel-body">
-            {% if request.user.is_authenticated %}
-              {% get_current_timezone as TIME_ZONE %}
-              <form action="" method="POST">
-                {% csrf_token %}
-                <label for="timezone">Time zone:</label>
-                <select name="timezone">
-                  {% for tz in timezones %}
-                    <option value="{{ tz }}" {% if tz == TIME_ZONE %} selected {% endif %}>
-                      {{ tz }}
-                    </option>
-                  {% endfor %}
-                </select> <br />
-                <input style="margin-bottom: 5px;" class="btn btn-success" type="submit" value="Save" />
-              </form>
-            {% else %}
-              You need to be logged in to view this page. <a href="../../login"> <br />
-              <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </main>
-  </body>
-</body>
-{% endblock content %}
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block content %}
+<body>
+  <body>
+    <main>
+      <div id="box_list_child" class="child text-center">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>User settings</h4>
+          </div>
+          <div class="panel-body">
+            {% if request.user.is_authenticated %}
+              {% get_current_timezone as TIME_ZONE %}
+              <form action="" method="POST">
+                {% csrf_token %}
+                <label for="timezone">Time zone:</label>
+                <select name="timezone">
+                  {% for tz in timezones %}
+                    <option value="{{ tz }}" {% if tz == TIME_ZONE %} selected {% endif %}>
+                      {{ tz }}
+                    </option>
+                  {% endfor %}
+                </select> <br />
+                <input style="margin-bottom: 5px;" class="btn btn-success" type="submit" value="Save" />
+              </form>
+            {% else %}
+              You need to be logged in to view this page. <a href="../../login"> <br />
+              <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</body>
+{% endblock content %}
