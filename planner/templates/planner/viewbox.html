@@ -65,11 +65,7 @@
             <td class="text-center">{{ character.character.get_kind_display }}</td>
             <td class="text-center">{{ character.current_level }}/{{ character.character.max_level }}</td>
             <td class="text-center">
-              {% if character.special_cd == character.character.maxed_special_cd %}
-              {{ character.special_cd }} <br /> MAX
-              {% else %}
-              {{ character.special_cd }}
-              {% endif %}
+              {{ character.special_cd }}/{{ character.character.maxed_special_cd }}
             </td>
             <td class="text-center">{{ character.assigned_sockets }}/{{ character.character.max_sockets }}</td>
             <td class="text-center no-wrap">

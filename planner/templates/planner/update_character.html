@@ -43,7 +43,7 @@
               Level:
             </th>
             <td>
-              <input id="current_level" class="text-center" type="number" name="current_level" min="0" max="{{ character.character.max_level}}" value="{{ character.current_level }}" onchange="update_status(); maxedLevel();"/><span id="current_level_text"></span>
+              <input id="current_level" class="text-center" type="number" name="current_level" min="0" max="{{ character.character.max_level}}" value="{{ character.current_level }}" onchange="update_status(); maxedLevel();"/> / {{ character.character.max_level }} <span id="current_level_text"></span>
             </td>
           </tr>
           <tr>
@@ -51,7 +51,7 @@
               Special CD:
             </th>
             <td>
-              <input id="special_cd" class="text-center" type="number" name="special_cd" min="{{ character.character.maxed_special_cd }}" max="{{ character.character.starting_special_cd}}" value="{{ character.special_cd }}" onchange="update_status(); maxedSpecial(); computeCopies();"/><span id="special_cd_text"></span>
+              <input id="special_cd" class="text-center" type="number" name="special_cd" min="{{ character.character.maxed_special_cd }}" max="{{ character.character.starting_special_cd}}" value="{{ character.special_cd }}" onchange="update_status(); maxedSpecial(); computeCopies();"/> / {{ character.character.maxed_special_cd }} <span id="special_cd_text"></span>
             </td>
           </tr>
           <tr>
@@ -59,7 +59,7 @@
               Assigned sockets:
             </th>
             <td>
-              <input id="assigned_sockets" class="text-center" type="number" name="assigned_sockets" min="0" max="{{ character.character.max_sockets}}" value="{{ character.assigned_sockets }}" onchange="update_status(); maxedSockets();"/><span id="assigned_sockets_text"></span>
+              <input id="assigned_sockets" class="text-center" type="number" name="assigned_sockets" min="0" max="{{ character.character.max_sockets}}" value="{{ character.assigned_sockets }}" onchange="update_status(); maxedSockets();"/> / {{ character.character.max_sockets }} <span id="assigned_sockets_text"></span>
             </td>
           </tr>
           <tr>
