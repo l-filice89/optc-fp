@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block buttons %}
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <body>
+    <main>
+      <div id="box_list_child" class="child text-center">
+        {% if request.user.is_authenticated %}
+          {% if boxes %}
+            <form method="post" action="">
+              {% csrf_token %}
+              <table class="table" style="width: 100%">
+                {% for box in boxes %}
+                  <tr>
+                    <td>
+                      {{ box.name }}
+                    </td>
+                    <td>
+                      <input type="checkbox" name="toDelete" value="{{ box.id }}"/>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+              <input class="btn btn-danger" type="submit" value="Delete box" onclick="return checkSelection();" />
+            </form>
+          {% else %}
+            You haven't saved any box. <br />
+          {% endif %}
+          {% if boxes %}
+          {% endif %}
+        {% else %}
+          You need to be logged in to view this page. <a href="../../login"> <br />
+          <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+</body>
+
+<script>
+
+function checkSelection(){
+  if($('input[name=toDelete]:checked').length == 0){
+    alert("Select at least one box!");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+</script>
+{% endblock content %}

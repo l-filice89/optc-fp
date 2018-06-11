@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+  <button class="btn btn-primary" onclick="document.location.href='https://optcfp.herokuapp.com/planner/boxlist'">Box list</button>
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <main style="overflow: hidden">
+    <div id="uc_child" class="child text-center">
+      <h1>Update character</h1>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <table class="table" style="width: auto;">
+          <tr>
+            <th>
+              Id:
+            </th>
+            <td>
+              {{ character.character.id }}
+            </td>
+          </tr>
+          <tr>
+            <th class="align-middle">
+              Name:
+            </th>
+            <td>
+              <img width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ character.character.id|stringformat:"04d" }}.png"/> {{ character.character.name }}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Owned:
+            </th>
+            <td>
+              <input class="text-center" {% if character.owned %} checked="checked" {% endif %} type="checkbox" name="owned" value="owned" id="owned"/>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Level:
+            </th>
+            <td>
+              <input id="current_level" class="text-center" type="number" name="current_level" min="0" max="{{ character.character.max_level}}" value="{{ character.current_level }}" onchange="update_status(); maxedLevel();"/><span id="current_level_text"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Special CD:
+            </th>
+            <td>
+              <input id="special_cd" class="text-center" type="number" name="special_cd" min="{{ character.character.maxed_special_cd }}" max="{{ character.character.starting_special_cd}}" value="{{ character.special_cd }}" onchange="update_status(); maxedSpecial(); computeCopies();"/><span id="special_cd_text"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Assigned sockets:
+            </th>
+            <td>
+              <input id="assigned_sockets" class="text-center" type="number" name="assigned_sockets" min="0" max="{{ character.character.max_sockets}}" value="{{ character.assigned_sockets }}" onchange="update_status(); maxedSockets();"/><span id="assigned_sockets_text"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Cotton candies:
+            </th>
+            <td>
+              ATK -> <input id="cc_atk" class="text-center" type="number" name="cc_atk" min="0" max="100" value="{{ character.cc_atk }}" onchange="update_status();"/>
+              HP -> <input id="cc_hp" class="text-center" type="number" name="cc_hp" min="0" max="100" value="{{ character.cc_hp }}" onchange="update_status();"/>
+              RCV -> <input id="cc_rcv" class="text-center" type="number" name="cc_rcv" min="0" max="100" value="{{ character.cc_rcv }}" onchange="update_status();"/>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              What to max:
+            </th>
+            <td>
+              <div class="row">
+                <div class="col text-left">
+                  <input {% if character.level %} checked="checked" {% endif %}type="checkbox" name="toMax" value="level" id="level" onchange="update_max_status(); update_status();"/> Level  <br />
+                  <input {% if character.sockets %} checked="checked" {% endif %}type="checkbox" name="toMax" value="sockets" id="sockets" onchange="update_max_status(); update_status();"/> Sockets <br />
+                  <input {% if character.limit_break %} checked="checked" {% endif %}type="checkbox" name="toMax" value="limit_break" id="limit_break"  onchange="update_max_status(); update_status();"/> Limit break
+                </div>
+                <div class="col text-left">
+                  <input {% if character.special %} checked="checked" {% endif %}type="checkbox" name="toMax" value="special" id="special" onchange="update_max_status(); update_status();"/> Special <br />
+                  <input {% if character.cotton %} checked="checked" {% endif %}type="checkbox" name="toMax" value="cotton" id="cotton" onchange="update_max_status(); update_status();"/> Cotton candies <br />
+                  <input {% if character.limit_abilities %} checked="checked" {% endif %}type="checkbox" name="toMax" value="limit_abilities" id="limit_abilities" onchange="update_max_status(); update_status();"/> Limit break abilities
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Status:
+            </th>
+            <td id="status_value">
+            </td>
+            <input type="hidden" name="status" id="status"/>
+          </tr>
+          <tr>
+            <th>
+              Target:
+            </th>
+            <td id="max_status_value">
+            </td>
+            <input type="hidden" name="max_status" id="max_status"/>
+          </tr>
+          <tr>
+            <th>
+              Farmed copies:
+            </th>
+            <td>
+              <input id="farmed_copies" class="text-center" type="number" name="farmed_copies" min="0" max="1000" value="{{ character.farmed_copies }}"/><span id="suggested_copies"></span>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              Completed:
+            </th>
+            <td id="completed">
+            </td>
+          </tr>
+        </table>
+        <input class="btn btn-primary" type="submit" value="Update" onclick="return check_cc();"/>
+      </form>
+    </div>
+  </main>
+</body>
+
+<script>
+  status = {{ character.status }};
+  max_status = {{ character.max_status }};
+
+  function update_status(){
+    status = 0;
+    cc_atk = parseInt(document.getElementById("cc_atk").value);
+    cc_hp = parseInt(document.getElementById("cc_hp").value);
+    cc_rcv = parseInt(document.getElementById("cc_rcv").value);
+    if(document.getElementById("current_level").value == {{ character.character.max_level }} & document.getElementById("level").checked){
+      status++;
+    }
+    if(document.getElementById("special_cd").value == {{ character.character.maxed_special_cd }} & document.getElementById("special").checked){
+      status++;
+    }
+    if(document.getElementById("assigned_sockets").value == {{ character.character.max_sockets }} & document.getElementById("sockets").checked){
+      status++;
+    }
+    if(cc_atk + cc_hp + cc_rcv == 200 & document.getElementById("cotton").checked){
+      status++;
+    }
+    document.getElementById("status_value").innerHTML = status_toString(status);
+    document.getElementById("status").value = status;
+    check_completion();
+  }
+
+  function update_max_status(){
+    max_status = $('input[name=toMax]:checked').length;
+    max_status_string = status_toString(String(max_status));
+    document.getElementById("max_status_value").innerHTML = max_status_string;
+    document.getElementById("max_status").value = max_status;
+    check_completion();
+  }
+
+  function status_toString(status){
+    status_string = "";
+    switch (status) {
+      case '0':
+        status_string = "Nothing maxed";
+        break;
+      case '1':
+        status_string = "Maxed";
+        break;
+      case '2':
+        status_string = "Bi-maxed";
+        break;
+      case '3':
+        status_string = "Tri-maxed";
+        break;
+      case '4':
+        status_string = "Quad-maxed";
+        break;
+      case '5':
+        status_string = "Penta-maxed";
+        break;
+      case '6':
+        status_string = "Rainbow-maxed";
+        break;
+    }
+    return status_string;
+  }
+
+  function check_completion(){
+    if (status == max_status){
+      document.getElementById("completed").innerHTML = "&#10004;";
+    } else {
+      document.getElementById("completed").innerHTML = "&#10008;";
+    }
+  }
+
+  function maxedLevel(){
+    if($('input[name=current_level]').val() == {{ character.character.max_level }}){
+      document.getElementById("current_level_text").innerHTML = " - MAX"
+    } else {
+      document.getElementById("current_level_text").innerHTML = ""
+    }
+  }
+
+  function maxedSpecial(){
+    if($('input[name=special_cd]').val() == {{ character.character.maxed_special_cd }}){
+      document.getElementById("special_cd_text").innerHTML = " - MAX"
+    } else {
+      document.getElementById("special_cd_text").innerHTML = ""
+    }
+  }
+
+  function maxedSockets(){
+    if($('input[name=assigned_sockets]').val() == {{ character.character.max_sockets }}){
+      document.getElementById("assigned_sockets_text").innerHTML = " - MAX"
+    } else {
+      document.getElementById("assigned_sockets_text").innerHTML = ""
+    }
+  }
+
+  function computeCopies(){
+    missing_levels = $('input[name=special_cd]').val() - {{ character.character.maxed_special_cd }};
+    copies = missing_levels*4;
+    document.getElementById("suggested_copies").innerHTML = " / " + copies;
+  }
+
+  function check_cc(){
+    cc_atk = parseInt(document.getElementById("cc_atk").value);
+    cc_hp = parseInt(document.getElementById("cc_hp").value);
+    cc_rcv = parseInt(document.getElementById("cc_rcv").value);
+    if(cc_atk + cc_hp + cc_rcv > 200){
+      alert("ERROR! Be careful, a character can't have more then 200 cc assigned!")
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  update_status();
+  update_max_status();
+  check_completion();
+  maxedLevel();
+  maxedSpecial();
+  maxedSockets();
+  computeCopies();
+</script>
+{% endblock content %}

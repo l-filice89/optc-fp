@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+  <button class="btn btn-primary" onclick="document.location.href='https://optcfp.herokuapp.com/planner/boxlist'">Box list</button>
+{% endblock buttons %}
+
+{% block content %}
+  <body>
+    <div class="button-group" id="box_button_group">
+      <button class="btn btn-success" onclick="document.location.href='https://optcfp.herokuapp.com/planner/viewbox{{box.id}}/add_character'">Add characters</button>
+      <button class="btn btn-danger" onclick="document.location.href='https://optcfp.herokuapp.com/planner/viewbox{{box.id}}/remove_character'">Remove characters</button>
+    </div>
+    {% if character_list %}
+      <div class="table-responsive" id="box-table">
+        <table class="table-bordered table-striped" style="width: 100%">
+          <tr>
+            <th class="text-center">Owned</th>
+            <th class="text-center">ID</th>
+            <th colspan="2" class="text-center">Name</th>
+            <th class="text-center">Type</th>
+            <th class="text-center">Stars</th>
+            <th class="text-center">Kind</th>
+            <th class="text-center">Level</th>
+            <th class="text-center no-wrap">Special CD</th>
+            <th class="text-center">Sockets</th>
+            <th class="text-center">CC</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Target</th>
+            <th class="text-center no-wrap">Farmable now</th>
+            <th title="The second number is simply a suggestion for the number of copies to farm to have a good chance to max the special, farming that many copy won't guarantee you'll max the special though if RNGesus is against you."class="text-center  no-wrap">Farmed copies*</th>
+            <th class="text-center">Completed</th>
+          </tr>
+          {% for character in character_list %}
+          <tr>
+            <td class="text-center">
+              {% if character.owned %}
+                &#10004;
+              {% else %}
+                &#10008;
+              {% endif %}
+            </td>
+            <td>{{ character.character.id|stringformat:"04d" }}</td>
+            <td class="text-center">
+              <img width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ character.character.id|stringformat:"04d" }}.png"/>
+            </td>
+            <td><a href="/planner/{{character.id}}">{{ character.character.name }}</a></td>
+            <td class="text-center">
+            {% if character.character.type == "STR" %}
+              <span style="color: red; font-weight: bold;">STR</span>
+            {% elif character.character.type == "DEX" %}
+              <span style="color: green; font-weight: bold;">DEX</span>
+            {% elif character.character.type == "QCK" %}
+              <span style="color: blue; font-weight: bold;">QCK</span>
+            {% elif character.character.type == "PSY" %}
+              <span style="color: orange; font-weight: bold;">PSY</span>
+            {% elif character.character.type == "INT" %}
+              <span style="color: purple; font-weight: bold;">INT</span>
+            {% endif %}
+            </td>
+            <td class="text-center no-wrap">
+              {{ character.character.get_stars_display }}
+            </td>
+            <td class="text-center">{{ character.character.get_kind_display }}</td>
+            <td class="text-center">{{ character.current_level }}/{{ character.character.max_level }}</td>
+            <td class="text-center">
+              {% if character.special_cd == character.character.maxed_special_cd %}
+              {{ character.special_cd }} <br /> MAX
+              {% else %}
+              {{ character.special_cd }}
+              {% endif %}
+            </td>
+            <td class="text-center">{{ character.assigned_sockets }}/{{ character.character.max_sockets }}</td>
+            <td class="text-center no-wrap">
+              + {{ character.cc_atk }} ATK <br />
+              + {{ character.cc_hp }} HP <br />
+              + {{ character.cc_rcv }} RCV
+            </td>
+            <td class="text-center  no-wrap">{{ character.get_status_display }}</td>
+            <td class="text-center  no-wrap">{{ character.get_max_status_display }}</td>
+            <td class="text-center">
+              TO BE DONE
+            </td>
+            <td id="farmed_copies" class="text-center">
+              {{ character.farmed_copies }} / {{ character.special_cd|sub:character.character.maxed_special_cd|mul:"4" }}
+              {% if character.farmed_copies >= character.special_cd|sub:character.character.maxed_special_cd|mul:"4" and character.special_cd > character.character.maxed_special_cd %}
+                &#10004;
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if character.status == character.max_status and character.owned%}
+                &#10004;
+              {% else %}
+                &#10008;
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    {% else %}
+        <p>No characters are available.</p>
+    {% endif %}
+  </body>
+{% endblock content %}

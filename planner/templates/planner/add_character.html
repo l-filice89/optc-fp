@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+  <button class="btn btn-primary" onclick="document.location.href='planner/boxlist'">Box list</button>
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <main style="overflow: hidden">
+
+    <div id="uc_child" class="text-center">
+      <h1> Add characters to {{ box.name }}</h1>
+        <form action="" method="POST" class="text-center">
+          {% csrf_token %}
+          <input type="text" name="filter_name" placeholder="Character name"/>
+          <input type="submit" value="Filter" onclick="return filterCheck();"/>
+        </form>
+        <form action="" method="POST" class="text-center">
+          {% csrf_token %}
+        <div class="text-left">
+          {% for character in available_characters %}
+          <input type="checkbox" name="selected" value="{{character.id}}"/>
+            <img width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ character.id|stringformat:"04d" }}.png" />
+            {{ character.id }} - {{ character.name }}
+            {% if character.id in in_box %}
+            <b>(already in box)</b>
+            {% endif %} <br />
+          {% endfor %}
+        </div>
+        <input type="submit" class="btn btn-success" id="add_character" value="Add characters" onclick="return checkSelection();"/>
+    </div>
+    </form>
+  </main>
+</body>
+
+<script>
+
+function checkSelection(){
+  if($('input[name=selected]:checked').length == 0){
+    alert("Select at least one character!");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function filterCheck(){
+  if($('input[name=selected]:checked').length > 0){
+    return confirm("WARNING: you've selected some characters, filtering the list without adding them will deselect them!")
+  }
+}
+
+</script>
+{% endblock content %}

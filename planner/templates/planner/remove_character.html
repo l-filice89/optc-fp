@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+  <button class="btn btn-primary" onclick="document.location.href='planner/boxlist'">Box list</button>
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <main style="overflow: hidden">
+    <form action="" method="POST" class="text-center">
+    <div id="uc_child" class="text-center">
+      <h1> Remove characters from {{ box.name }}</h1>
+        {% csrf_token %}
+        <div class="text-left">
+          {% for character in available_characters %}
+          <input type="checkbox" name="selected" value="{{character.id}}"/>
+            <img width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ character.character.id|stringformat:"04d" }}.png" />
+            {{ character.character.id }} - {{ character.character.name }} - LV: {{ character.current_level }}/{{ character.character.max_level }}<br />
+          {% endfor %}
+        </div>
+    </div>
+    <input type="submit" class="btn btn-danger" id="add_character" value="Remove characters" onclick="return checkSelection();"/>
+    </form>
+  </main>
+</body>
+
+<script>
+
+function checkSelection(){
+  if($('input[name=selected]:checked').length == 0){
+    alert("Select at least one character!");
+    return false;
+  } else {
+    return true;
+  }
+}
+
+</script>
+{% endblock content %}
