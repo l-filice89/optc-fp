@@ -81,11 +81,11 @@
                 <div class="col text-left">
                   <input {% if character.level %} checked="checked" {% endif %}type="checkbox" name="toMax" value="level" id="level" onchange="update_max_status(); update_status();"/> Level  <br />
                   <input {% if character.sockets %} checked="checked" {% endif %}type="checkbox" name="toMax" value="sockets" id="sockets" onchange="update_max_status(); update_status();"/> Sockets <br />
-                  <input {% if character.limit_break %} checked="checked" {% endif %}type="checkbox" name="toMax" value="limit_break" id="limit_break"  onchange="update_max_status(); update_status();"/> Limit break
+                  <input {% if character.special %} checked="checked" {% endif %}type="checkbox" name="toMax" value="special" id="special" onchange="update_max_status(); update_status();"/> Special
                 </div>
                 <div class="col text-left">
-                  <input {% if character.special %} checked="checked" {% endif %}type="checkbox" name="toMax" value="special" id="special" onchange="update_max_status(); update_status();"/> Special <br />
                   <input {% if character.cotton %} checked="checked" {% endif %}type="checkbox" name="toMax" value="cotton" id="cotton" onchange="update_max_status(); update_status();"/> Cotton candies <br />
+                  <input {% if character.limit_break %} checked="checked" {% endif %}type="checkbox" name="toMax" value="limit_break" id="limit_break"  onchange="update_max_status(); update_status();"/> Limit break <br />
                   <input {% if character.limit_abilities %} checked="checked" {% endif %}type="checkbox" name="toMax" value="limit_abilities" id="limit_abilities" onchange="update_max_status(); update_status();"/> Limit break abilities
                 </div>
               </div>
