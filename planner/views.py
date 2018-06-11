@@ -232,6 +232,8 @@ def activeEvents(request):
     boxes = Box.objects.filter(user=request.user.id).order_by('id')
     if len(boxes) > 0:
         selected_box = boxes[0]
+    else:
+        selected_box = ""
     if request.method == 'POST':
         if request.POST.get('selected_box'):
             selection = request.POST.get('selected_box')
