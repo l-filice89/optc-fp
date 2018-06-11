@@ -230,15 +230,21 @@ def activeEvents(request):
     # USER BOX INFORMATION QUERIES
     # Get user boxes and select the first one
     boxes = Box.objects.filter(user=request.user.id).order_by('id')
-    selected_box = boxes[0]
+    if len(boxes) > 0:
+        selected_box = boxes[0]
     if request.method == 'POST':
         if request.POST.get('selected_box'):
             selection = request.POST.get('selected_box')
             selected_box = Box.objects.get(id=selection)
     # Get characters owned for greyout option
-    not_owned_characters = CharacterLog.objects.filter(box=selected_box.id, owned=False).values_list('character', flat=True)
-    owned_characters = CharacterLog.objects.filter(box=selected_box.id)
-    in_box_characters = owned_characters.values_list('character', flat=True)
+    if len(boxes) >0 or request.POST.get('selected_box'):
+        not_owned_characters = CharacterLog.objects.filter(box=selected_box.id, owned=False).values_list('character', flat=True)
+        owned_characters = CharacterLog.objects.filter(box=selected_box.id)
+        in_box_characters = owned_characters.values_list('character', flat=True)
+    else:
+        not_owned_characters = []
+        owned_characters = []
+        in_box_characters = []
 
     context = {
         'active_events': events,
