@@ -9,6 +9,7 @@
 {% block content %}
   <body>
     <div class="button-group" id="box_button_group">
+      <button class="btn btn-info home-buttons" onclick="document.location.href='/planner/editbox'">Edit box</button>
       <button class="btn btn-success" onclick="document.location.href='https://optcfp.herokuapp.com/planner/viewbox{{box.id}}/add_character'">Add characters</button>
       <button class="btn btn-danger" onclick="document.location.href='https://optcfp.herokuapp.com/planner/viewbox{{box.id}}/remove_character'">Remove characters</button>
     </div>
