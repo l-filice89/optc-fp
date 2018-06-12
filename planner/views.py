@@ -203,7 +203,7 @@ def removeCharacter(request, boxID):
     return HttpResponse(template.render(context, request))
 
 
-def activeEvents(request):
+def activeEventsGlobal(request):
     # Load template
     template = loader.get_template('planner/active_events.html')
 
