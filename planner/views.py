@@ -12,6 +12,12 @@ import pytz
 from itertools import chain
 
 
+# Index view
+def index(request):
+        return render(request, 'index.html')
+
+
+# View related to box details (characters and progression)
 def viewbox(request, boxID):
     user_check = Box.objects.filter(id=boxID).values('user_id')[0].get('user_id')
     if request.user.is_authenticated:
@@ -30,6 +36,108 @@ def viewbox(request, boxID):
         return HttpResponseRedirect('/login')
 
 
+# View to show user available boxes
+def boxList(request):
+    template = loader.get_template('planner/box_list.html')
+    boxes = Box.objects.filter(user_id=request.user.id).order_by('id')
+    context = {
+        'boxes': boxes
+    }
+    return HttpResponse(template.render(context, request))
+
+
+# View to add a new box
+def newbox(request):
+    if request.method == 'POST':
+        if request.POST.get('box_name'):
+            if request.POST.get('japan'):
+                if request.POST.get('japan') == "False":
+                    jap = False
+                else:
+                    jap = True
+            box = Box(name=request.POST.get('box_name'), user=request.user, japan=jap)
+            box.save()
+            return HttpResponseRedirect('/planner/boxlist')
+    else:
+        return render(request, 'planner/create_box.html')
+
+
+# View to remove existing box
+def deletebox(request):
+    template = loader.get_template('planner/delete_box.html')
+    boxes = Box.objects.filter(user_id=request.user.id)
+    context = {
+        'boxes': boxes
+    }
+    if request.method == 'POST':
+        if request.POST.getlist('toDelete'):
+            for box in request.POST.getlist('toDelete'):
+                b = Box.objects.get(id=box)
+                b.delete()
+            return HttpResponseRedirect('boxlist')
+    return HttpResponse(template.render(context, request))
+
+
+# View to edit existing boxes
+def editbox(request):
+    template = loader.get_template('/planner/edit_box.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
+
+# View to add character to selected box
+def addCharacter(request, boxID):
+    box = Box.objects.get(id=boxID)
+    available_characters = Character.objects.all().order_by('id')
+    template = loader.get_template('planner/add_character.html')
+    in_box = CharacterLog.objects.filter(box=boxID).values_list('character', flat=True)
+    hide = False
+    filter = ""
+    context = {
+        'available_characters': available_characters,
+        'box': box,
+        'in_box': in_box,
+        'hide': hide,
+        'filter': filter,
+    }
+    if request.method == 'POST':
+        # Add character to box
+        if request.POST.getlist('selected'):
+            selected = request.POST.getlist('selected')
+            if len(selected) == 1:
+                for character in selected:
+                    character = Character.objects.get(id=character)
+                    cl = CharacterLog(box=Box.objects.get(id=boxID), character=character, special_cd =character.starting_special_cd, level=0, special=0, sockets=0, cotton=0, limit_break=0, limit_abilities=0, cc_atk=0, cc_hp=0, cc_rcv=0, status=0, max_status=0)
+                    cl.save()
+                return HttpResponseRedirect('../' + str(cl.id))
+            else:
+                for character in selected:
+                    character = Character.objects.get(id=character)
+                    cl = CharacterLog(box=Box.objects.get(id=boxID), character=character, special_cd =character.starting_special_cd, level=0, special=0, sockets=0, cotton=0, limit_break=0, limit_abilities=0, cc_atk=0, cc_hp=0, cc_rcv=0, status=0, max_status=0)
+                    cl.save()
+                return HttpResponseRedirect('../viewbox' + str(box.id))
+        # Filter character by name
+        if request.POST.get('filter_name'):
+            filter = request.POST.get('filter_name')
+            available_characters = available_characters.filter(name__icontains=filter)
+        # Hide already owned characters
+        if request.POST.get('hide_owned'):
+            hide = request.POST.get('hide_owned')
+            if hide == "1":
+                available_characters = available_characters.exclude(id__in=in_box)
+        context = {
+            'available_characters': available_characters,
+            'box': box,
+            'in_box': in_box,
+            'hide': hide,
+            'filter': filter,
+        }
+        HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))
+
+
+# View to update single character progression
 def updateCharacter(request, clID):
     character_details = CharacterLog.objects.get(id=clID)
     context = {
@@ -97,99 +205,7 @@ def updateCharacter(request, clID):
     return HttpResponse(template.render(context, request))
 
 
-def newbox(request):
-    if request.method == 'POST':
-        if request.POST.get('box_name'):
-            if request.POST.get('japan'):
-                if request.POST.get('japan') == "False":
-                    jap = False
-                else:
-                    jap = True
-            box = Box(name=request.POST.get('box_name'), user=request.user, japan=jap)
-            box.save()
-            return HttpResponseRedirect('/planner/boxlist')
-    else:
-        return render(request, 'planner/create_box.html')
-
-
-def index(request):
-        return render(request, 'index.html')
-
-
-def boxList(request):
-    template = loader.get_template('planner/box_list.html')
-    boxes = Box.objects.filter(user_id=request.user.id).order_by('id')
-    context = {
-        'boxes': boxes
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def deletebox(request):
-    template = loader.get_template('planner/delete_box.html')
-    boxes = Box.objects.filter(user_id=request.user.id)
-    context = {
-        'boxes': boxes
-    }
-    if request.method == 'POST':
-        if request.POST.getlist('toDelete'):
-            for box in request.POST.getlist('toDelete'):
-                b = Box.objects.get(id=box)
-                b.delete()
-            return HttpResponseRedirect('boxlist')
-    return HttpResponse(template.render(context, request))
-
-
-def addCharacter(request, boxID):
-    box = Box.objects.get(id=boxID)
-    available_characters = Character.objects.all().order_by('id')
-    template = loader.get_template('planner/add_character.html')
-    in_box = CharacterLog.objects.filter(box=boxID).values_list('character', flat=True)
-    hide = False
-    filter = ""
-    context = {
-        'available_characters': available_characters,
-        'box': box,
-        'in_box': in_box,
-        'hide': hide,
-        'filter': filter,
-    }
-    if request.method == 'POST':
-        # Add character to box
-        if request.POST.getlist('selected'):
-            selected = request.POST.getlist('selected')
-            if len(selected) == 1:
-                for character in selected:
-                    character = Character.objects.get(id=character)
-                    cl = CharacterLog(box=Box.objects.get(id=boxID), character=character, special_cd =character.starting_special_cd, level=0, special=0, sockets=0, cotton=0, limit_break=0, limit_abilities=0, cc_atk=0, cc_hp=0, cc_rcv=0, status=0, max_status=0)
-                    cl.save()
-                return HttpResponseRedirect('../' + str(cl.id))
-            else:
-                for character in selected:
-                    character = Character.objects.get(id=character)
-                    cl = CharacterLog(box=Box.objects.get(id=boxID), character=character, special_cd =character.starting_special_cd, level=0, special=0, sockets=0, cotton=0, limit_break=0, limit_abilities=0, cc_atk=0, cc_hp=0, cc_rcv=0, status=0, max_status=0)
-                    cl.save()
-                return HttpResponseRedirect('../viewbox' + str(box.id))
-        # Filter character by name
-        if request.POST.get('filter_name'):
-            filter = request.POST.get('filter_name')
-            available_characters = available_characters.filter(name__icontains=filter)
-        # Hide already owned characters
-        if request.POST.get('hide_owned'):
-            hide = request.POST.get('hide_owned')
-            if hide == "1":
-                available_characters = available_characters.exclude(id__in=in_box)
-        context = {
-            'available_characters': available_characters,
-            'box': box,
-            'in_box': in_box,
-            'hide': hide,
-            'filter': filter,
-        }
-        HttpResponse(template.render(context, request))
-    return HttpResponse(template.render(context, request))
-
-
+# View to remove character from selected box
 def removeCharacter(request, boxID):
     box = Box.objects.get(id=boxID)
     available_characters = CharacterLog.objects.filter(box_id=boxID).order_by('character_id')
