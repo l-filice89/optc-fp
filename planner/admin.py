@@ -29,14 +29,14 @@ class DropAdmin(admin.ModelAdmin):
     search_fields = ['island__name']
 
 
-class IslandAdming(admin.ModelAdmin):
+class IslandAdmin(admin.ModelAdmin):
     list_display = ('name', 'kind', 'start_time', 'end_time')
     search_fields = ['name']
     list_filter = ['kind']
 
 
 admin.site.register(Character, CharacterAdmin)
-admin.site.register(Island)
+admin.site.register(Island, IslandAdmin)
 admin.site.register(Drop, DropAdmin)
 admin.site.register(Box)
 admin.site.register(CharacterLog, CharacterLogAdmin)
