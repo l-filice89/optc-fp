@@ -203,7 +203,7 @@ def activeEvents(request):
     drops = Drop.objects.filter(island__in=events_id).order_by('character')
     # Get character with same family for sockets drop
     families = drops.filter(sockets=True).values_list('character__family', flat=True)
-    families2 = drops.filter(socekts=True).exclude(character__family2="None").exclude(character__family2__in=families).values_list('character__family2', flat=True)
+    families2 = drops.filter(sockets=True).exclude(character__family2="None").exclude(character__family2__in=families).values_list('character__family2', flat=True)
     families = families + families2
     sockets_only = Character.objects.filter(family__in=families).order_by('family')
 
