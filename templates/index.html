@@ -27,7 +27,16 @@ window.cookieconsent.initialise({
       <div id="index-child" class="child text-center">
         {% if request.user.is_authenticated %}
           <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
-          <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Current events</button>
+          <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Global events</button>
+          <div class="collapse" id="global-events">
+            <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Current events</button>
+            <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Permanent events</button>
+          </div>
+          <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Japan events</button>
+          <div class="collapse" id="japan-events">
+            <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Current events</button>
+            <button class="btn btn-primary home-buttons" onclick="document.location.href='/active_events'">Permanent events</button>
+          </div>
         {% else %}
           <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>
           <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/signup'" disabled>Register</button>
