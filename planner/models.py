@@ -68,6 +68,8 @@ class Island(models.Model):
         ('C', 'Colosseum'),
         ('SK', 'Skill'),
         ('SS', 'Success'),
+        ('SKJ', 'SkillJAP'),
+        ('SSJ', 'SuccessJAP'),
     )
     name = models.CharField(max_length=100)
     kind = models.CharField(max_length=15, choices=kind_values)
