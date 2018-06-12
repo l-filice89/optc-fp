@@ -38,7 +38,8 @@ class Character(models.Model):
         ('S', 'Story'),
         ('C', 'Colosseum'),
         ('SP', 'Special'),
-        ('TM', 'Treasure Map')
+        ('TM', 'Treasure Map'),
+        ('RAY', 'Rayleigh Bazar'),
     )
     id = models.IntegerField(primary_key=True)
     name = models.TextField(max_length=70)
