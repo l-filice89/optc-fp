@@ -65,7 +65,7 @@ def newbox(request):
 # View to remove existing box
 def deletebox(request):
     template = loader.get_template('planner/delete_box.html')
-    boxes = Box.objects.filter(user_id=request.user.id)
+    boxes = Box.objects.filter(user_id=request.user.id).order_by('id')
     context = {
         'boxes': boxes
     }
@@ -81,6 +81,7 @@ def deletebox(request):
 # View to edit existing boxes
 def editbox(request):
     template = loader.get_template('/planner/edit_box.html')
+    boxes = Box.objects.filter(user=request.user.id)
     context = {
 
     }
