@@ -71,10 +71,10 @@ class Island(models.Model):
     )
     name = models.CharField(max_length=100)
     kind = models.CharField(max_length=15, choices=kind_values)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    start_timeJ = models.DateTimeField()
-    end_timeJ = models.DateTimeField()
+    start_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
+    start_timeJ = models.DateTimeField(blank=True, null=True)
+    end_timeJ = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name

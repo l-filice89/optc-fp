@@ -31,7 +31,7 @@ class DropAdmin(admin.ModelAdmin):
 
 
 class IslandAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'kind', 'start_time', 'end_time', 'start_timeJ', 'end_timeJ')
+    list_display = ('id', 'name', 'kind', 'start_time', 'end_time')
     search_fields = ['id', 'name']
     list_filter = ['kind']
 
