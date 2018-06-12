@@ -79,7 +79,7 @@
                     <br />Farmable sockets:<br />
                       {% for s in sockets_only %}
                         {% for d in drops %}
-                          {% if d.island.id == ae.id and s.family == d.character.family %}
+                          {% if d.island.id == ae.id and d.sockets s.family == d.character.family %}
                             <span style="position: relative;
                               {% if s.id in not_owned_characters or s.id not in in_box_characters %}
                                 filter: grayscale(100%); -webkit-filter: grayscale(100%);
