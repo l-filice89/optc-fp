@@ -26,7 +26,7 @@ class CharacterLogAdmin(admin.ModelAdmin):
 
 
 class DropAdmin(admin.ModelAdmin):
-    list_display = ('island__id', 'island', 'character')
+    list_display = ('island', 'character')
     search_fields = ['island__name']
 
 
