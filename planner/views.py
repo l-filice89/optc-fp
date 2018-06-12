@@ -85,6 +85,16 @@ def editbox(request, boxID):
     context = {
         'box': box,
     }
+    if request.method == 'POST':
+        if request.POST.get('box_name'):
+            box.name = request.POST.get('box_name')
+        if request.POST.get('japan'):
+            if request.POST.get('japan') == "False":
+                box.japan = False
+            else:
+                box.japan = True
+        box.save()
+        return HttpResponseRedirect('planner/viewbox' + str(box.id))
     return HttpResponse(template.render(context, request))
 
 # View to add character to selected box
