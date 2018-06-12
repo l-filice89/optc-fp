@@ -12,8 +12,8 @@
       <h1> Add characters to {{ box.name }}</h1>
         <form action="" method="POST" class="text-center">
           {% csrf_token %}
-          <input type="text" name="filter_name" placeholder="{% if filter == "" %} Character name {% else %} {{ filter }} {% endif %}"/>
-          <input type="checkbox" name="hide_owned" value="1" {% if hide == 1%} checked="true" {% endif %}/> Hide already in box <br />
+          <input type="text" name="filter_name" {% if filter == "" %} placeholder="Character name" {% else %} value="{{ filter }}" {% endif %}/>
+          <input type="checkbox" name="hide_owned" value="1" {% if hide == "1"%} checked="true" {% endif %}/> Hide already in box <br />
           <input style="margin-top: 5px;" type="submit" value="Filter" onclick="return filterCheck();"/>
         </form>
         <form action="" method="POST" class="text-center">
