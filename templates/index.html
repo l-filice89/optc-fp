@@ -30,12 +30,12 @@ window.cookieconsent.initialise({
           <button class="btn btn-primary home-buttons" data-toggle="collapse" data-target="#global-events">Global events</button>
           <div class="collapse" id="global-events">
             <button class="btn btn-info" onclick="document.location.href='/active_events/global'">Current events</button>
-            <button class="btn btn-info">Permanent events</button>
+            <button class="btn btn-info" disabled>Permanent events</button>
           </div>
           <button class="btn btn-primary home-buttons" data-toggle="collapse" data-target="#japan-events">Japan events</button>
           <div class="collapse" id="japan-events">
-            <button class="btn btn-info">Current events</button>
-            <button class="btn btn-info">Permanent events</button>
+            <button class="btn btn-info" onclick="document.location.href='/active_events/japan'">Current events</button>
+            <button class="btn btn-info" disabled>Permanent events</button>
           </div>
         {% else %}
           <button type="button" class="btn btn-success home-buttons" onclick="document.location.href='/login'">Login</button>

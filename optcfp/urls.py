@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('', include('accounts.urls')),
     path('', include('django.contrib.auth.urls')),
-    path('active_events/global', views.activeEventsGlobal, name="active_events"),
+    path('active_events/global', views.activeEventsGlobal, name="active_events_global"),
+    path('active_events/japan', views.activeEventsJapan, name="active_events_japan"),
     path('settings', views.settings, name="settings"),
 ]

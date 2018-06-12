@@ -280,6 +280,83 @@ def activeEventsGlobal(request):
     return HttpResponse(template.render(context, request))
 
 
+def activeEventsJapan(request):
+    # Load template
+    template = loader.get_template('planner/active_events.html')
+
+    # EVENT RELATED QUERIES
+    # Get current events
+    events = Island.objects.filter(start_time__lte=datetime.datetime.now(), end_time__gte=datetime.datetime.now()).exclude(kind='SS').exclude(kind='SK').order_by('end_time')
+    events_id = events.values_list('id', flat=True)
+    # Get current drops
+    drops = Drop.objects.filter(island__in=events_id).order_by('character')
+    # Get character with same family for sockets drop
+    families = drops.filter(sockets=True).values_list('character__family', flat=True)
+    families2 = drops.filter(sockets=True).exclude(character__family2="None").exclude(character__family2__in=families).values_list('character__family2', flat=True)
+    families = list(chain(families, families2))
+    sockets_only = Character.objects.filter(family__in=families).order_by('family')
+
+    # SKILL UP AND SUPER SUCCESS QUERIES
+    # Get skill up and supersuccess datas
+    skill_up = Island.objects.get(kind='SK')
+    super_success = Island.objects.get(kind='SS')
+    sk_status = 0
+    ss_status = 0
+    now = datetime.datetime.now(skill_up.start_time.tzinfo)
+    # Get skill up state
+    if skill_up.start_time > now:
+        sk_status = 0
+    elif skill_up.start_time <= now <= skill_up.end_time:
+        sk_status = 1
+    elif skill_up.end_time < now:
+        sk_status = 2
+    # Get supersuccess state
+    if super_success.start_time > now:
+        ss_status = 0
+    elif super_success.start_time <= now <= super_success.end_time:
+        ss_status = 1
+    elif super_success.end_time < now:
+        ss_status = 2
+
+    # USER BOX INFORMATION QUERIES
+    # Get user boxes and select the first one
+    boxes = Box.objects.filter(user=request.user.id).order_by('id')
+    if len(boxes) > 0:
+        selected_box = boxes[0]
+    else:
+        selected_box = ""
+    if request.method == 'POST':
+        if request.POST.get('selected_box'):
+            selection = request.POST.get('selected_box')
+            selected_box = Box.objects.get(id=selection)
+    # Get characters owned for greyout option
+    if len(boxes) >0 or request.POST.get('selected_box'):
+        not_owned_characters = CharacterLog.objects.filter(box=selected_box.id, owned=False).values_list('character', flat=True)
+        owned_characters = CharacterLog.objects.filter(box=selected_box.id)
+        in_box_characters = owned_characters.values_list('character', flat=True)
+    else:
+        not_owned_characters = []
+        owned_characters = []
+        in_box_characters = []
+
+    context = {
+        'active_events': events,
+        'events_id': events_id,
+        'drops': drops,
+        'not_owned_characters': not_owned_characters,
+        'in_box_characters': in_box_characters,
+        'sockets_only': sockets_only,
+        'skill_up': skill_up,
+        'super_success': super_success,
+        'sk_status': sk_status,
+        'ss_status': ss_status,
+        'boxes': boxes,
+        'selected_box': selected_box,
+        'owned_characters': owned_characters,
+    }
+    return HttpResponse(template.render(context, request))
+
+
 def settings(request):
     context = {
         'timezones': pytz.common_timezones,
