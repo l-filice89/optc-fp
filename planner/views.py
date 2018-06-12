@@ -225,25 +225,25 @@ def activeEventsGlobal(request):
     super_success = Island.objects.get(kind='SS')
     sk_status = 0
     ss_status = 0
-    now = datetime.datetime.now(skill_up.start_time.tzinfo)
+    now = datetime.datetime.now(skill_up.start_timeJ.tzinfo)
     # Get skill up state
-    if skill_up.start_time > now:
+    if skill_up.start_timeJ > now:
         sk_status = 0
-    elif skill_up.start_time <= now <= skill_up.end_time:
+    elif skill_up.start_timeJ <= now <= skill_up.end_timeJ:
         sk_status = 1
-    elif skill_up.end_time < now:
+    elif skill_up.end_timeJ < now:
         sk_status = 2
     # Get supersuccess state
-    if super_success.start_time > now:
+    if super_success.start_timeJ > now:
         ss_status = 0
-    elif super_success.start_time <= now <= super_success.end_time:
+    elif super_success.start_timeJ <= now <= super_success.end_timeJ:
         ss_status = 1
-    elif super_success.end_time < now:
+    elif super_success.end_timeJ < now:
         ss_status = 2
 
     # USER BOX INFORMATION QUERIES
     # Get user boxes and select the first one
-    boxes = Box.objects.filter(user=request.user.id).order_by('id')
+    boxes = Box.objects.filter(user=request.user.id, japan=False).order_by('id')
     if len(boxes) > 0:
         selected_box = boxes[0]
     else:
@@ -320,7 +320,7 @@ def activeEventsJapan(request):
 
     # USER BOX INFORMATION QUERIES
     # Get user boxes and select the first one
-    boxes = Box.objects.filter(user=request.user.id).order_by('id')
+    boxes = Box.objects.filter(user=request.user.id, japan=True).order_by('id')
     if len(boxes) > 0:
         selected_box = boxes[0]
     else:
