@@ -29,7 +29,8 @@ class Character(models.Model):
         ('DEX', 'DEX'),
         ('QCK', 'QCK'),
         ('PSY', 'PSY'),
-        ('INT', 'INT')
+        ('INT', 'INT'),
+        ('None', ''),
     )
     kind_values = (
         ('R', 'Raid'),
@@ -44,6 +45,7 @@ class Character(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.TextField(max_length=70)
     type = models.TextField(choices=type_values)
+    type2 = models.TextField(choices=type_values, default='None')
     stars = models.CharField(max_length=2, choices=stars_values)
     kind = models.CharField(max_length=15, choices=kind_values)
     max_level = models.IntegerField()
@@ -51,6 +53,7 @@ class Character(models.Model):
     maxed_special_cd = models.IntegerField()
     max_sockets = models.IntegerField()
     family = models.CharField(max_length=70)
+    family2 = models.CharField(max_length=70, default="None")
 
     def __str__(self):
         return str(self.id) + " - " + self.name
