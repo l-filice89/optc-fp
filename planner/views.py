@@ -100,7 +100,12 @@ def updateCharacter(request, clID):
 def newbox(request):
     if request.method == 'POST':
         if request.POST.get('box_name'):
-            box = Box(name=request.POST.get('box_name'), user=request.user)
+            if request.POST.get('japan'):
+                if request.POST.get('japan') == "False":
+                    jap = False
+                else:
+                    jap = True
+            box = Box(name=request.POST.get('box_name'), user=request.user, japan=jap)
             box.save()
             return HttpResponseRedirect('/planner/boxlist')
     else:
