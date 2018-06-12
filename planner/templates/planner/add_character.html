@@ -13,7 +13,7 @@
         <form action="" method="POST" class="text-center">
           {% csrf_token %}
           <input type="text" name="filter_name" placeholder="Character name"/>
-          <input type="checkbox" name="hide_owned" value="1" /> Hide already in box
+          <input type="checkbox" name="hide_owned" value="1" /> Hide already in box <br />
           <input type="submit" value="Filter" onclick="return filterCheck();"/>
         </form>
         <form action="" method="POST" class="text-center">

@@ -140,10 +140,12 @@ def addCharacter(request, boxID):
     available_characters = Character.objects.all().order_by('id')
     template = loader.get_template('planner/add_character.html')
     in_box = CharacterLog.objects.filter(box=boxID).values_list('character', flat=True)
+    hide = False
     context = {
         'available_characters': available_characters,
         'box': box,
         'in_box': in_box,
+        'hide': hide,
     }
     if request.method == 'POST':
         # Add character to box
@@ -161,15 +163,21 @@ def addCharacter(request, boxID):
                     cl = CharacterLog(box=Box.objects.get(id=boxID), character=character, special_cd =character.starting_special_cd, level=0, special=0, sockets=0, cotton=0, limit_break=0, limit_abilities=0, cc_atk=0, cc_hp=0, cc_rcv=0, status=0, max_status=0)
                     cl.save()
                 return HttpResponseRedirect('../viewbox' + str(box.id))
-        # Filter character view
+        # Filter character by name
         if request.POST.get('filter_name'):
             filter = request.POST.get('filter_name')
             available_characters = available_characters.filter(name__icontains=filter)
-            context = {
-                'available_characters': available_characters,
-                'box': box,
-                'in_box': in_box,
-            }
+        # Hide already owned characters
+        if request.POST.get('hide_owned'):
+            hide = request.POST.get('hide_owned')
+            if hide == "1":
+                available_characters = available_characters.exclude(id__in=in_box)
+        context = {
+            'available_characters': available_characters,
+            'box': box,
+            'in_box': in_box,
+            'hide': hide,
+        }
             HttpResponse(template.render(context, request))
     return HttpResponse(template.render(context, request))
 
