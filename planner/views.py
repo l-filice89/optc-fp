@@ -298,8 +298,8 @@ def activeEventsJapan(request):
 
     # SKILL UP AND SUPER SUCCESS QUERIES
     # Get skill up and supersuccess datas
-    skill_up = Island.objects.get(kind='SK')
-    super_success = Island.objects.get(kind='SS')
+    skill_up = Island.objects.get(kind='SKJ')
+    super_success = Island.objects.get(kind='SSJ')
     sk_status = 0
     ss_status = 0
     now = datetime.datetime.now(skill_up.start_timeJ.tzinfo)
