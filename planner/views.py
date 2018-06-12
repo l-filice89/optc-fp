@@ -79,11 +79,11 @@ def deletebox(request):
 
 
 # View to edit existing boxes
-def editbox(request):
+def editbox(request, boxID):
     template = loader.get_template('planner/edit_box.html')
-    boxes = Box.objects.filter(user=request.user.id)
+    box = Box.objects.get(id=boxID)
     context = {
-        'boxes': boxes,
+        'box': box,
     }
     return HttpResponse(template.render(context, request))
 

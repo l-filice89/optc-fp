@@ -8,16 +8,9 @@
         {% if request.user.is_authenticated %}
           <form action="" method="POST">
             {% csrf_token %}
-            <select name="selected_box">
-              {% for box in boxes %}
-                <option value="{{ box.id }}">
-                  {{ box.name }}
-                </option>
-              {% endfor %}
-            </select> <br />
-            <input style="margin: 5px;"type="text" name="box_name" placeholder="New box name"/><br/>
-            <input type="radio" name="japan" value="False" /> Global
-            <input type="radio" name="japan" value="True" /> Japan
+            Change name: <input style="margin: 5px;"type="text" name="box_name" value="{{box.name}}"/><br/>
+            <input type="radio" name="japan" value="False" {% if not box.japan %} checked {% endif %}/> Global
+            <input type="radio" name="japan" value="True" {% if box.japan %} checked {% endif %}/> Japan
             <input class="btn btn-success home-buttons" type="submit" value="Edit box"/>
           </form>
         {% else %}
