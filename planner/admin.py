@@ -10,7 +10,7 @@ class CharacterAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'kind', 'family')
     list_filter = ['kind', 'family']
     search_fields = ['name']
-    fieldsets = ['id', 'name', 'type', 'stars', 'kind', 'max_level', 'max_sockets', 'starting_special_cd', 'maxed_special_cd', 'family']
+    fields = ('id', 'name', 'type', 'stars', 'kind', 'max_level', 'max_sockets', 'starting_special_cd', 'maxed_special_cd', 'family')
 
 
 class CharacterLogAdmin(admin.ModelAdmin):
