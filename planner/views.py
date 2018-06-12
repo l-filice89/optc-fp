@@ -94,7 +94,7 @@ def editbox(request, boxID):
             else:
                 box.japan = True
         box.save()
-        return HttpResponseRedirect('planner/viewbox' + str(box.id))
+        return HttpResponseRedirect('viewbox' + str(box.id))
     return HttpResponse(template.render(context, request))
 
 # View to add character to selected box
