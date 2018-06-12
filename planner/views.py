@@ -178,7 +178,7 @@ def addCharacter(request, boxID):
             'in_box': in_box,
             'hide': hide,
         }
-            HttpResponse(template.render(context, request))
+        HttpResponse(template.render(context, request))
     return HttpResponse(template.render(context, request))
 
 
