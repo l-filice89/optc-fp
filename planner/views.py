@@ -141,11 +141,13 @@ def addCharacter(request, boxID):
     template = loader.get_template('planner/add_character.html')
     in_box = CharacterLog.objects.filter(box=boxID).values_list('character', flat=True)
     hide = False
+    filter = ""
     context = {
         'available_characters': available_characters,
         'box': box,
         'in_box': in_box,
         'hide': hide,
+        'filter': filter,
     }
     if request.method == 'POST':
         # Add character to box
@@ -177,6 +179,7 @@ def addCharacter(request, boxID):
             'box': box,
             'in_box': in_box,
             'hide': hide,
+            'filter': filter,
         }
         HttpResponse(template.render(context, request))
     return HttpResponse(template.render(context, request))
