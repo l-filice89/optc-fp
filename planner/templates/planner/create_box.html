@@ -9,6 +9,8 @@
           <form action="" method="POST">
             {% csrf_token %}
             <input style="margin: 5px;"type="text" name="box_name" placeholder="Box name"/><br/>
+            <input type="radio" name="japan" value="False" checked/> Global
+            <input type="radio" name="japan" value="True" /> Japan
             <input class="btn btn-success home-buttons" type="submit" value="Add box"/>
           </form>
         {% else %}
