@@ -9,6 +9,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 import datetime
 import pytz
+from itertools import chain
 
 
 def viewbox(request, boxID):
@@ -204,7 +205,7 @@ def activeEvents(request):
     # Get character with same family for sockets drop
     families = drops.filter(sockets=True).values_list('character__family', flat=True)
     families2 = drops.filter(sockets=True).exclude(character__family2="None").exclude(character__family2__in=families).values_list('character__family2', flat=True)
-    families = families + families2
+    families = list(chain(families, families2))
     sockets_only = Character.objects.filter(family__in=families).order_by('family')
 
     # SKILL UP AND SUPER SUCCESS QUERIES
