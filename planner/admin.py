@@ -7,7 +7,7 @@ from .models import CharacterLog
 
 
 class CharacterAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'kind', 'family')
+    list_display = ('id', 'name', 'kind', 'family', 'family2')
     list_filter = ['kind', 'family']
     search_fields = ['name']
     fields = ('id', 'name', 'type', 'type2', 'stars', 'kind', 'max_level', 'max_sockets', 'starting_special_cd', 'maxed_special_cd', 'family', 'family2')

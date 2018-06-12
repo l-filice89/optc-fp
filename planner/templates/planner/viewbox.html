@@ -58,6 +58,20 @@
             {% elif character.character.type == "INT" %}
               <span style="color: purple; font-weight: bold;">INT</span>
             {% endif %}
+            {% if character.character.type2 != "None" %}
+               /
+               {% if character.character.type2 == "STR" %}
+                 <span style="color: red; font-weight: bold;">STR</span>
+               {% elif character.character.type2 == "DEX" %}
+                 <span style="color: green; font-weight: bold;">DEX</span>
+               {% elif character.character.type2 == "QCK" %}
+                 <span style="color: blue; font-weight: bold;">QCK</span>
+               {% elif character.character.type2 == "PSY" %}
+                 <span style="color: orange; font-weight: bold;">PSY</span>
+               {% elif character.character.type2 == "INT" %}
+                 <span style="color: purple; font-weight: bold;">INT</span>
+               {% endif %}
+            {% endif %}
             </td>
             <td class="text-center no-wrap">
               {{ character.character.get_stars_display }}
