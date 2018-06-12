@@ -282,7 +282,7 @@ def activeEventsGlobal(request):
 
 def activeEventsJapan(request):
     # Load template
-    template = loader.get_template('planner/active_events.html')
+    template = loader.get_template('planner/active_events_japan.html')
 
     # EVENT RELATED QUERIES
     # Get current events

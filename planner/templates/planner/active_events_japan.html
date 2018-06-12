@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+
+{% block buttons %}
+  <button class="btn btn-primary" onclick="document.location.href='/'">Home</button>
+  <button class="btn btn-primary" onclick="document.location.href='planner/boxlist'">Box list</button>
+{% endblock buttons %}
+
+{% block content %}
+<body>
+  <main style="overflow: hidden">
+    <div id="uc_child" class="child text-center">
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div>
+              {% if sk_status == 0 %}
+                {{ skill_up.start_time|timeuntil }} until {{skill_up.name}}
+              {% elif sk_status == 1 %}
+                {{ skill_up.end_time|timeuntil }} until {{skill_up.name}} ends
+              {% elif sk_status == 2 %}
+                Next skill up TBA
+              {% endif %}
+              <br />
+              {% if ss_status == 0 %}
+                {{ super_success.start_time|timeuntil }} until {{super_success.name}}
+              {% elif ss_status == 1 %}
+                {{ super_success.end_time|timeuntil }} until {{super_success.name}} ends
+              {% elif ss_status == 2 %}
+                Next super success TBA
+              {% endif %}
+            </div>
+            <h4 class="panel-title">
+              Ongoing events
+            </h4>
+            <form action="" method="POST" class="text-center">
+              {% csrf_token %}
+              <label for="selected_box">
+              Choose one box: </label>
+              <select name="selected_box">
+                {% for box in boxes %}
+                  <option value="{{ box.id }}" {% if box.id == selected_box.id %} selected {% endif %}>
+                    {{ box.name }}
+                  </option>
+                {% endfor %}
+              </select>
+              <input type="submit" value="Select" />
+            </form>
+          </div>
+          <div>
+            <ul class="list-group">
+              {% for ae in active_events %}
+                <li class="list-group-item">
+                  <a href="#collapse{{ ae.id }}" data-toggle="collapse">
+                    <h4>{{ ae.name }}</h4>
+                    Ends {{ ae.end_time }} ({{ ae.end_time|timeuntil }})<br />
+                  </a>
+                  <div id="collapse{{ ae.id }}" class="collapse">
+                    Farmable special: <br />
+                    {% for d in drops %}
+                      {% if d.island.id == ae.id and d.special %}
+                      <span style="position: relative;
+                        {% if d.character.id in not_owned_characters or d.character.id not in in_box_characters %}
+                          filter: grayscale(100%); -webkit-filter: grayscale(100%);
+                        {% endif %}">
+                        <a href="http://optc-db.github.io/characters/#/view/{{d.character.id}}" target="_blank">
+                          <img style="z-index: -1;" title="{{ d.character.name }}" width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ d.character.id|stringformat:"04d" }}.png"/>
+                        </a>
+                        {% for oc in owned_characters %}
+                          {% if d.character.id == oc.character.id and oc.special_cd == oc.character.maxed_special_cd %}
+                            <span style="position: absolute; right: 5px; top: 50%;">
+                              <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/2.png" title="Skill maxed"/>
+                            </span>
+                          {% endif %}
+                        {% endfor %}
+                      </span>
+                      {% endif %}
+                    {% endfor %}
+                    <br />Farmable sockets:<br />
+                      {% for s in sockets_only %}
+                        {% for d in drops %}
+                          {% if d.island.id == ae.id and d.sockets and s.family == d.character.family %}
+                            <span style="position: relative;
+                              {% if s.id in not_owned_characters or s.id not in in_box_characters %}
+                                filter: grayscale(100%); -webkit-filter: grayscale(100%);
+                              {% endif %}">
+                              <a href="http://optc-db.github.io/characters/#/view/{{s.id}}" target="_blank">
+                                <img style="z-index: -1;" title="{{ s.name }}" width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ s.id|stringformat:"04d" }}.png"/>
+                              </a>
+                              {% for oc in owned_characters %}
+                                {% if s.id == oc.character.id and oc.assigned_sockets == oc.character.max_sockets %}
+                                  <span style="position: absolute; right: 5px; top: 50%;">
+                                    <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/4.png" title="Sockets maxed"/>
+                                  </span>
+                                {% endif %}
+                              {% endfor %}
+                            </span>
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    <br />Farmable LB:<br />
+                    {% for d in drops %}
+                      {% if d.island.id == ae.id and d.limit_break %}
+                        <a href="http://optc-db.github.io/characters/#/view/{{d.character.id}}" target="_blank">
+                          <img class="drop-pick" title="{{ d.character.name }}" width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ d.character.id|stringformat:"04d" }}.png"
+                          {% if d.character.id in not_owned_characters or d.character.id not in  in_box_characters %}
+                            style="filter: grayscale(100%); -webkit-filter: grayscale(100%);"
+                          {% endif %}
+                          />
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+{% endblock content %}
