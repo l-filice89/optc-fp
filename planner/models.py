@@ -98,6 +98,7 @@ class Drop(models.Model):
 class Box(models.Model):
     name = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    japan = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username + " - " + self.name
