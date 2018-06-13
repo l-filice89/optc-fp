@@ -64,14 +64,14 @@
                           filter: grayscale(100%); -webkit-filter: grayscale(100%);
                         {% endif %}">
                         <a href="http://optc-db.github.io/characters/#/view/{{d.character.id}}" target="_blank">
-                          <img style="z-index: -1;" title="{{ d.character.name }}" width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ d.character.id|stringformat:"04d" }}.png"/>{{character.special_cd|sub:character.character.maxed_special_cd|mul:"4"}}
+                          <img style="z-index: -1;" title="{{ d.character.name }}" width="50px" height="50px" src="https://onepiece-treasurecruise.com/wp-content/uploads/f{{ d.character.id|stringformat:"04d" }}.png"/>
                         </a>
                         {% for oc in owned_characters %}
                           {% if d.character.id == oc.character.id and oc.special_cd == oc.character.maxed_special_cd %}
                             <span style="position: absolute; right: 5px; top: 50%;">
                               <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/2.png" title="Skill maxed"/>
                             </span>
-                          {% elif d.character.id == oc.character.id and oc.farmed_copies >= character.special_cd|sub:character.character.maxed_special_cd|mul:"4" %}
+                          {% elif d.character.id == oc.character.id and oc.farmed_copies >= oc.special_cd|sub:oc.character.maxed_special_cd|mul:"4" %}
                           <span style="position: absolute; right: 5px; top: 50%;">
                             <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/2.png" title="Skill maxed"/>
                           </span>
