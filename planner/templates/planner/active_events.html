@@ -71,6 +71,10 @@
                             <span style="position: absolute; right: 5px; top: 50%;">
                               <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/2.png" title="Skill maxed"/>
                             </span>
+                          {% elif d.character.id == oc.character.id and oc.farmed_copies >= (oc.special_cd - oc.character.maxed_special_cd)|mul:"4" %}
+                          <span style="position: absolute; right: 5px; top: 0;">
+                            <img style="width: 25px; height: 25px;" src="https://www.nakama.network/content/individual-flags/2.png" title="Skill maxed"/>
+                          </span>
                           {% endif %}
                         {% endfor %}
                       </span>
