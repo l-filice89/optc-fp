@@ -26,7 +26,7 @@ import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'tnx8n91g*-l4li=6!lt*_c^7&p5!*1!c9hr^#0j9%ne(zikzkb')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'optcfp.herokuapp.com'
