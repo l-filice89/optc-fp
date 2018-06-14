@@ -2,6 +2,8 @@ body {
   background-color: #37C2ED;
   background-image: url("pictures/home_bg.jpg");
   background-size: auto;
+  width: 100%;
+  height: 100%;
 }
 
 main {
@@ -13,6 +15,7 @@ main {
   align-items: center;
   resize: both;
   overflow: auto;
+  flex-direction: column;
 }
 
 #main_for_small {
