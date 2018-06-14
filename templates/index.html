@@ -24,7 +24,7 @@ window.cookieconsent.initialise({
 </script>
   <body id="small_body">
     <main id="main_for_small">
-      <div id="index-child" class="child text-center">
+      <div id="index-child" style="flex-grow: 1" class="child text-center">
         {% if request.user.is_authenticated %}
           <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
           <button class="btn btn-primary home-buttons" data-toggle="collapse" data-target="#global-events">Global events</button>
