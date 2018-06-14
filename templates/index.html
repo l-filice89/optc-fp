@@ -23,7 +23,7 @@ window.cookieconsent.initialise({
 })});
 </script>
   <body id="small_body">
-    <main style="height: 70vh;">
+    <main id="main_for_small">
       <div id="index-child" class="child text-center">
         {% if request.user.is_authenticated %}
           <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
@@ -45,8 +45,5 @@ window.cookieconsent.initialise({
         {% endif %}
       </div>
     </main>
-    <footer class="footer">
-      test
-    </footer>
   </body>
 {% endblock content %}
