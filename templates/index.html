@@ -23,7 +23,7 @@ window.cookieconsent.initialise({
 })});
 </script>
   <body id="small_body">
-    <main id="main_for_small">
+    <main>
       <div id="index-child" class="child text-center">
         {% if request.user.is_authenticated %}
           <button class="btn btn-primary home-buttons" onclick="document.location.href='/planner/boxlist'">Box list</button>
@@ -44,10 +44,6 @@ window.cookieconsent.initialise({
           <button class="btn btn-secondary home-buttons" title="Login to view your boxes" disabled>Current events</button>
         {% endif %}
       </div>
-      <br />
-      <footer>
-        Test
-      </footer>
     </main>
   </body>
 {% endblock content %}
